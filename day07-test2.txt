@@ -1,0 +1,35 @@
+$ cd /
+$ ls
+dir a
+1000 b.txt
+2000 c.dat
+dir d
+$ cd a
+$ ls
+dir e
+3000 f
+4000 g
+5000 h.lst
+$ cd e
+$ ls
+dir xyz
+dir abc
+100 i
+$ cd xyz
+$ ls
+1 file1.txt
+2 file2.txt
+3 file3.txt
+$ cd ..
+$ cd abc
+$ ls
+4 file4.txt
+$ cd ..
+$ cd ..
+$ cd ..
+$ cd d
+$ ls
+6000 j
+7000 d.log
+9000 d.ext
+9000 k
