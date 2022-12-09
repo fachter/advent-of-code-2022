@@ -13,7 +13,7 @@ func main() {
 }
 
 func partOne() {
-	file, _ := os.Open("day02.txt")
+	file, _ := os.Open("day02/day02.txt")
 	fileScanner := bufio.NewScanner(file)
 	fileScanner.Split(bufio.ScanLines)
 	totalScore := 0
@@ -37,7 +37,7 @@ func partOne() {
 }
 
 func partTwo() {
-	file, _ := os.Open("day02.txt")
+	file, _ := os.Open("day02/day02.txt")
 	fileScanner := bufio.NewScanner(file)
 	fileScanner.Split(bufio.ScanLines)
 	totalScore := 0

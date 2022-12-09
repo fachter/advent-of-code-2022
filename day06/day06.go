@@ -7,11 +7,11 @@ import (
 )
 
 func main() {
-	checkForFirstStartMarker("day06-test1.txt")
-	checkForFirstStartMarker("day06-test2.txt")
-	checkForFirstStartMarker("day06-test3.txt")
-	checkForFirstStartMarker("day06-test4.txt")
-	checkForFirstStartMarker("day06.txt")
+	checkForFirstStartMarker("day06/day06-test1.txt")
+	checkForFirstStartMarker("day06/day06-test2.txt")
+	checkForFirstStartMarker("day06/day06-test3.txt")
+	checkForFirstStartMarker("day06/day06-test4.txt")
+	checkForFirstStartMarker("day06/day06.txt")
 }
 
 func checkForFirstStartMarker(fileName string) {

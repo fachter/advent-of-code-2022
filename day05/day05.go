@@ -13,7 +13,7 @@ func main() {
 }
 
 func moveItemsOneByOne() {
-	file, _ := os.Open("day05.txt")
+	file, _ := os.Open("day05/day05.txt")
 	fileScanner := bufio.NewScanner(file)
 	fileScanner.Split(bufio.ScanLines)
 	items := map[int][]string{
@@ -62,7 +62,7 @@ func moveItemsOneByOne() {
 }
 
 func moveAllItemsAtOnce() {
-	file, _ := os.Open("day05.txt")
+	file, _ := os.Open("day05/day05.txt")
 	fileScanner := bufio.NewScanner(file)
 	fileScanner.Split(bufio.ScanLines)
 	items := map[int][]string{

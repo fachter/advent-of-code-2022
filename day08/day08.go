@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	countHiddenVisibleTrees("day08-test.txt")
-	countHiddenVisibleTrees("day08.txt")
+	countHiddenVisibleTrees("day08/day08-test.txt")
+	countHiddenVisibleTrees("day08/day08.txt")
 }
 
 func countHiddenVisibleTrees(fileName string) {

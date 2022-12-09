@@ -13,7 +13,7 @@ func main() {
 }
 
 func overlapCompletely() {
-	file, _ := os.Open("day04.txt")
+	file, _ := os.Open("day04/day04.txt")
 	fileScanner := bufio.NewScanner(file)
 	fileScanner.Split(bufio.ScanLines)
 	counter := 0
@@ -38,7 +38,7 @@ func overlapCompletely() {
 }
 
 func overlapAtAll() {
-	file, _ := os.Open("day04.txt")
+	file, _ := os.Open("day04/day04.txt")
 	fileScanner := bufio.NewScanner(file)
 	fileScanner.Split(bufio.ScanLines)
 	counter := 0

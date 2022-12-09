@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	scoreHiddenVisibleTrees("day08-test.txt")
-	scoreHiddenVisibleTrees("day08.txt")
+	scoreHiddenVisibleTrees("day08/day08-test.txt")
+	scoreHiddenVisibleTrees("day08/day08.txt")
 }
 
 func scoreHiddenVisibleTrees(fileName string) {

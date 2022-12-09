@@ -32,9 +32,9 @@ func newFolder(name string, parent *Folder) *Folder {
 }
 
 func main() {
-	//processDeviceText("day07-test2.txt")
-	//processDeviceText("day07-test.txt")
-	processDeviceText("day07.txt")
+	//processDeviceText("day07/day07-test2.txt")
+	//processDeviceText("day07/day07-test.txt")
+	processDeviceText("day07/day07.txt")
 
 }
 

@@ -12,7 +12,7 @@ func main() {
 }
 
 func readDuplicatesForThreeElves() {
-	file, _ := os.Open("day03.txt")
+	file, _ := os.Open("day03/day03.txt")
 	fileScanner := bufio.NewScanner(file)
 	fileScanner.Split(bufio.ScanLines)
 	prioritySum := 0
@@ -21,7 +21,7 @@ func readDuplicatesForThreeElves() {
 	for fileScanner.Scan() {
 		rucksack := fileScanner.Text()
 		rucksacks[count] = []byte(rucksack)
-		count ++
+		count++
 		if count == 3 {
 
 			duplicates := map[int]bool{}
@@ -53,7 +53,7 @@ func readDuplicatesForThreeElves() {
 }
 
 func readDuplicatesForOneElf() {
-	file, _ := os.Open("day03.txt")
+	file, _ := os.Open("day03/day03.txt")
 	fileScanner := bufio.NewScanner(file)
 	fileScanner.Split(bufio.ScanLines)
 	prioritySum := 0
