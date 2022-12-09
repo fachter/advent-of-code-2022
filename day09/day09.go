@@ -14,7 +14,8 @@ type Position struct {
 }
 
 func main() {
-	//countVisitedPlaces("day09-test.txt")
+	countVisitedPlaces("day09-test.txt")
+	countVisitedPlaces("day09-test2.txt")
 	countVisitedPlaces("day09.txt")
 }
 
@@ -23,7 +24,12 @@ func countVisitedPlaces(fileName string) {
 	fileScanner := bufio.NewScanner(file)
 	fileScanner.Split(bufio.ScanLines)
 	headPosition := Position{0, 0}
-	tailPosition := Position{0, 0}
+	var tailPositions []Position
+	tailPositions = append(tailPositions, headPosition)
+	numberOfTails := 9
+	for i := 0; i < numberOfTails; i++ {
+		tailPositions = append(tailPositions, Position{0, 0})
+	}
 	visitedPlaces := map[Position]bool{}
 	for fileScanner.Scan() {
 		line := fileScanner.Text()
@@ -31,9 +37,12 @@ func countVisitedPlaces(fileName string) {
 		direction := fields[0]
 		steps, _ := strconv.Atoi(fields[1])
 		for i := 0; i < steps; i++ {
-			headStep(direction, &headPosition)
-			tailStep(headPosition, &tailPosition)
-			visitedPlaces[tailPosition] = true
+			headStep(direction, &tailPositions[0])
+			for j := 1; j < len(tailPositions); j++ {
+				tailStep(tailPositions[j-1], &tailPositions[j])
+			}
+			//tailStep(headPosition, &tailPositions)
+			visitedPlaces[tailPositions[len(tailPositions)-1]] = true
 			//fmt.Println(headPosition)
 			//fmt.Println(tailPosition)
 			//fmt.Println()
