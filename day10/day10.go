@@ -26,12 +26,15 @@ func detectSignalStrengths(fileName string) {
 		if commands[0] == "addx" {
 			cycle++
 			checkCycleStrength(&strength, cycle, x)
+			printCrt(cycle, x)
 			cycle++
+			printCrt(cycle, x)
 			value, _ := strconv.Atoi(commands[1])
 			x += value
 			checkCycleStrength(&strength, cycle, x)
 		} else {
 			cycle++
+			printCrt(cycle, x)
 			checkCycleStrength(&strength, cycle, x)
 		}
 	}
@@ -39,7 +42,26 @@ func detectSignalStrengths(fileName string) {
 	for _, v := range strength {
 		totalStrength += v
 	}
+	fmt.Println()
 	fmt.Println(totalStrength)
+	fmt.Println()
+	fmt.Println()
+}
+
+func printCrt(cycle int, x int) {
+	crtPosition := cycle - 2
+	if crtPosition != 0 && crtPosition % 40 == 0 {
+		fmt.Print("\n")
+	}
+	for crtPosition > 39 {
+		crtPosition -= 40
+	}
+	diff := crtPosition - x
+	if diff >= -1 && diff <= 1 {
+		fmt.Print("#")
+	} else {
+		fmt.Print(".")
+	}
 }
 
 func checkCycleStrength(strength *map[int]int, cycle int, x int) {
