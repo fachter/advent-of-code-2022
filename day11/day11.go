@@ -71,13 +71,18 @@ func getMonkeys(fileName string) map[int]*Monkey {
 }
 
 func SimulateRounds(monkeys map[int]*Monkey) {
-	for i := 0; i < 20; i++ {
+	mod := 1
+	for _, m := range monkeys {
+		mod *= m.testDivider
+	}
+	for i := 0; i < 10_000; i++ {
 		for index := 0; index < len(monkeys); index++ {
 			monkeyItems := monkeys[index].items
 			for _, item := range monkeyItems {
 				monkeys[index].totalInspections++
 				newValue := calc(monkeys[index].operation, item)
-				newValue /= 3
+				newValue %= mod
+				//newValue /= 3
 				if newValue%monkeys[index].testDivider == 0 {
 					monkeys[monkeys[index].trueNext].items = append(monkeys[monkeys[index].trueNext].items, newValue)
 				} else {
@@ -85,6 +90,13 @@ func SimulateRounds(monkeys map[int]*Monkey) {
 				}
 				monkeys[index].items = monkeys[index].items[1:]
 			}
+		}
+		if i == 0 || i == 999 || i == 19 || i == 4999 {
+			fmt.Println(i + 1)
+			for k, m := range monkeys {
+				fmt.Println(k, m.totalInspections)
+			}
+			fmt.Println()
 		}
 	}
 }
