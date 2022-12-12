@@ -22,8 +22,7 @@ type NodeQueueItem struct {
 
 func showShortestPath(fileName string) {
 	grid := getGrid(fileName)
-	startNode := getIndexOf("S", &grid, "a")
-	goalNode := getIndexOf("E", &grid, "z")
+	startNode := getIndexOf("E", &grid, "z")
 	var queue []NodeQueueItem
 	queue = append(queue, NodeQueueItem{startNode, 0})
 	var visitedNodes []NodeQueueItem
@@ -32,7 +31,7 @@ func showShortestPath(fileName string) {
 		queue = queue[1:]
 		neighbors := getNeighbors(grid, nItem, visitedNodes)
 		for _, nb := range neighbors {
-			if nb == goalNode {
+			if grid[nb.row][nb.col] == "a" {
 				fmt.Println("DONE with distance", nItem.distance+1)
 				return
 			} else {
@@ -44,13 +43,7 @@ func showShortestPath(fileName string) {
 		if !inQueue(visitedNodes, nItem.node) {
 			visitedNodes = append(visitedNodes, nItem)
 		}
-
-		//fmt.Println(len(neighbors))
 	}
-	//fmt.Println(startNode)
-	//fmt.Println(goalNode)
-	//fmt.Println(grid)
-
 }
 
 func getNeighbors(grid [][]string, nItem NodeQueueItem, visited []NodeQueueItem) []Node {
@@ -87,10 +80,7 @@ func isNotWalkable(grid [][]string, n Node, neighbor Node) bool {
 	neighborValue := []byte(neighborString)[0]
 	nodeString := grid[n.row][n.col]
 	nodeValue := []byte(nodeString)[0]
-	diff := int(neighborValue) - int(nodeValue)
-	if diff > 1 {
-		//fmt.Println(diff)
-	}
+	diff := int(nodeValue) - int(neighborValue)
 	return diff > 1
 }
 
