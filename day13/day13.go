@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	//sumRightOrderedIndices("day13-test.txt")
+	sumRightOrderedIndices("day13-test.txt")
 	sumRightOrderedIndices("day13.txt")
 }
 
@@ -31,8 +31,8 @@ func sumRightOrderedIndices(fileName string) {
 			writeToFirst = false
 		} else {
 			secondItem = parseLineToStruct(line)
-			ordered := packetsAreOrdered(firstItem, secondItem)
-			if ordered {
+			ordered, same := packetsAreOrdered(firstItem, secondItem)
+			if ordered || same {
 				validPackets = append(validPackets, packetIdx)
 			}
 			writeToFirst = true
@@ -48,40 +48,48 @@ func sumRightOrderedIndices(fileName string) {
 
 }
 
-func packetsAreOrdered(firstItem []interface{}, secondItem []interface{}) bool {
+func packetsAreOrdered(firstItem []interface{}, secondItem []interface{}) (bool, bool) {
 	firstLength := len(firstItem)
 	secondLength := len(secondItem)
 	for i := 0; i < firstLength; i++ {
 		if i >= secondLength {
-			return false
+			return false, false
 		}
 		firstListInList, firstListOk := firstItem[i].([]interface{})
 		secondListInList, secondListOk := secondItem[i].([]interface{})
 		if firstListOk == secondListOk && firstListOk {
-			if !packetsAreOrdered(firstListInList, secondListInList) {
-				return false
+			ordered, same := packetsAreOrdered(firstListInList, secondListInList)
+			if !same {
+				return ordered, false
 			}
 		} else if firstListOk == secondListOk {
-			if secondItem[i].(float64) != firstItem[i].(float64) {
-				return !(secondItem[i].(float64) < firstItem[i].(float64))
+			same := secondItem[i].(float64) == firstItem[i].(float64)
+			if !same {
+
+				return !(secondItem[i].(float64) < firstItem[i].(float64)), same
 			}
 		} else {
 			if !secondListOk {
 				var newSecondListInList []interface{}
 				newSecondListInList = append(newSecondListInList, secondItem[i])
-				if !packetsAreOrdered(firstListInList, newSecondListInList) {
-					return false
+				ordered, same := packetsAreOrdered(firstListInList, newSecondListInList)
+				if !same {
+					return ordered, false
 				}
 			} else if !firstListOk {
 				var newFirstListInList []interface{}
 				newFirstListInList = append(newFirstListInList, firstItem[i])
-				if !packetsAreOrdered(newFirstListInList, secondListInList) {
-					return false
+				ordered, same := packetsAreOrdered(newFirstListInList, secondListInList)
+				if !same {
+					return ordered, false
 				}
 			}
 		}
 	}
-	return true
+	if firstLength < secondLength {
+		return true, false
+	}
+	return true, true
 }
 
 func parseLineToStruct(line string) []interface{} {
@@ -94,3 +102,4 @@ func parseLineToStruct(line string) []interface{} {
 }
 
 // 751 to low
+// 3798 to low

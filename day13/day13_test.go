@@ -50,61 +50,73 @@ func TestParseLineToStruct(t *testing.T) {
 
 func TestPacketsAreOrdered(t *testing.T) {
 	t.Run("givenInvalidIntList", func(t *testing.T) {
-		result := packetsAreOrdered(
+		result, _ := packetsAreOrdered(
 			parseLineToStruct("[3]"),
 			parseLineToStruct("[1]"))
 		assertExpectedOrFail(t, result, false)
 	})
 	t.Run("givenIntLists", func(t *testing.T) {
-		result := packetsAreOrdered(
+		result, _ := packetsAreOrdered(
 			parseLineToStruct("[1,1,3,1,1]"),
 			parseLineToStruct("[1,1,5,1,1]"))
 		assertExpectedOrFail(t, result, true)
 	})
 
 	t.Run("givenListInList", func(t *testing.T) {
-		result := packetsAreOrdered(
+		result, _ := packetsAreOrdered(
 			parseLineToStruct("[[1],[2,3,4]]"),
 			parseLineToStruct("[[1],4]"))
 		assertExpectedOrFail(t, result, true)
 	})
 
 	t.Run("givenInvalidOrder", func(t *testing.T) {
-		result := packetsAreOrdered(
+		result, _ := packetsAreOrdered(
 			parseLineToStruct("[9]"),
 			parseLineToStruct("[[8,7,6]]"))
 		assertExpectedOrFail(t, result, false)
 	})
 	t.Run("givenRightSideRanOutOfItems", func(t *testing.T) {
-		result := packetsAreOrdered(
+		result, _ := packetsAreOrdered(
 			parseLineToStruct("[7, 7, 7, 7]"),
 			parseLineToStruct("[7, 7, 7]"))
 		assertExpectedOrFail(t, result, false)
 	})
 	t.Run("givenRightSideRanOutOfItemsWithEmptyLists", func(t *testing.T) {
-		result := packetsAreOrdered(
+		result, _ := packetsAreOrdered(
 			parseLineToStruct("[[[]]]"),
 			parseLineToStruct("[[]]"))
 		assertExpectedOrFail(t, result, false)
 	})
 	t.Run("givenLeftSideRanOutOfItems", func(t *testing.T) {
-		result := packetsAreOrdered(
+		result, _ := packetsAreOrdered(
 			parseLineToStruct("[]"),
 			parseLineToStruct("[3]"))
 		assertExpectedOrFail(t, result, true)
 	})
+	t.Run("givenLeftSideRanOutOfItemsWithItemsAfterwards", func(t *testing.T) {
+		result, _ := packetsAreOrdered(
+			parseLineToStruct("[[], 2]"),
+			parseLineToStruct("[[3], 1]"))
+		assertExpectedOrFail(t, result, true)
+	})
 	t.Run("complexExample", func(t *testing.T) {
-		result := packetsAreOrdered(
+		result, _ := packetsAreOrdered(
 			parseLineToStruct("[1,[2,[3,[4,[5,6,7]]]],8,9]"),
 			parseLineToStruct("[1,[2,[3,[4,[5,6,0]]]],8,9]"))
 		assertExpectedOrFail(t, result, false)
 
 	})
 	t.Run("givenSameListsWithIntAfterwards", func(t *testing.T) {
-		result := packetsAreOrdered(
+		result, _ := packetsAreOrdered(
 			parseLineToStruct("[[1, 2, 3, 4], 2]"),
 			parseLineToStruct("[[1, 2, 3, 4], 1]"))
 		assertExpectedOrFail(t, result, false)
+	})
+	t.Run("givenSameLists", func(t *testing.T) {
+		_, same := packetsAreOrdered(
+			parseLineToStruct("[[1, 2, 3, 4], 2]"),
+			parseLineToStruct("[[1, 2, 3, 4], 2]"))
+		assertExpectedOrFail(t, same, true)
 	})
 }
 
