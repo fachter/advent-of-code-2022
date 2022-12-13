@@ -8,8 +8,52 @@ import (
 )
 
 func main() {
-	sumRightOrderedIndices("day13-test.txt")
-	sumRightOrderedIndices("day13.txt")
+	//sumRightOrderedIndices("day13-test.txt")
+	//sumRightOrderedIndices("day13.txt")
+
+	sortPackages("day13-test.txt")
+	sortPackages("day13.txt")
+}
+
+func sortPackages(fileName string) {
+	file, _ := os.Open("day13/" + fileName)
+	fileScanner := bufio.NewScanner(file)
+	fileScanner.Split(bufio.ScanLines)
+	var packages [][]interface{}
+	divider2 := parseLineToStruct("[[2]]")
+	divider6 := parseLineToStruct("[[6]]")
+	packages = append(packages, divider2, divider6)
+	for fileScanner.Scan() {
+		line := fileScanner.Text()
+		if len(line) > 0 {
+			packages = append(packages, parseLineToStruct(line))
+		}
+	}
+	for i := len(packages); i > 0; i-- {
+		for j := 1; j < i; j++ {
+			ordered, same := packetsAreOrdered(packages[j-1], packages[j])
+			if !ordered && !same {
+				temp := packages[j]
+				packages[j] = packages[j-1]
+				packages[j-1] = temp
+			}
+		}
+	}
+	s2Idx := 0
+	s6Idx := 0
+	for i, pack := range packages {
+		_, same2 := packetsAreOrdered(pack, divider2)
+		if same2 {
+			s2Idx = i + 1
+			fmt.Println("Same2 Index", i)
+		}
+		_, same6 := packetsAreOrdered(pack, divider6)
+		if same6 {
+			s6Idx = i + 1
+			fmt.Println("Same6 Index", i)
+		}
+	}
+	fmt.Println(s2Idx * s6Idx)
 }
 
 func sumRightOrderedIndices(fileName string) {
@@ -43,7 +87,6 @@ func sumRightOrderedIndices(fileName string) {
 	for _, packet := range validPackets {
 		sum += packet
 	}
-	fmt.Println(validPackets)
 	fmt.Println(sum)
 
 }
