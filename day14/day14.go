@@ -24,7 +24,7 @@ func discoverCave(fileName string) {
 	}
 	fmt.Println("built")
 	//printCoordinates(coordinates)
-	sand := simulateSand(coordinates)
+	sand := simulateSandWithGround(coordinates)
 	fmt.Println(len(sand))
 }
 
@@ -59,6 +59,49 @@ func simulateSand(coordinates map[Coordinate]bool) map[Coordinate]bool {
 		sand[newSand] = true
 		newSand = Coordinate{500, 0}
 		fallCounter = 0
+	}
+	return sand
+}
+
+func simulateSandWithGround(coordinates map[Coordinate]bool) map[Coordinate]bool {
+	sand := map[Coordinate]bool{}
+	ground := 0
+	for stone := range coordinates {
+		if stone.y+2 > ground {
+			ground = stone.y + 2
+		}
+	}
+	for x := -5; x < 1000; x++ {
+		coordinates[Coordinate{x, ground}] = true
+	}
+	newSand := Coordinate{500, 0}
+	for _, sandInMap := sand[Coordinate{500, 0}]; !sandInMap; {
+		_, sandInMap := sand[Coordinate{500, 0}]
+		if sandInMap {
+			break
+		}
+		_, stoneBelow := coordinates[Coordinate{newSand.x, newSand.y + 1}]
+		_, sandBelow := sand[Coordinate{newSand.x, newSand.y + 1}]
+		_, stoneLeft := coordinates[Coordinate{newSand.x - 1, newSand.y + 1}]
+		_, sandLeft := sand[Coordinate{newSand.x - 1, newSand.y + 1}]
+		_, stoneRight := coordinates[Coordinate{newSand.x + 1, newSand.y + 1}]
+		_, sandRight := sand[Coordinate{newSand.x + 1, newSand.y + 1}]
+		if !stoneBelow && !sandBelow {
+			newSand.y++
+			continue
+		}
+		if !stoneLeft && !sandLeft {
+			newSand.x--
+			newSand.y++
+			continue
+		}
+		if !stoneRight && !sandRight {
+			newSand.x++
+			newSand.y++
+			continue
+		}
+		sand[newSand] = true
+		newSand = Coordinate{500, 0}
 	}
 	return sand
 }

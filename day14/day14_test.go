@@ -2,6 +2,8 @@ package main
 
 import (
 	"adventOfCode"
+	"bufio"
+	"os"
 	"testing"
 )
 
@@ -98,5 +100,22 @@ func TestSimulateSand(t *testing.T) {
 		result := simulateSand(stones)
 
 		adventOfCode.AssertExpectedOrFail(t, len(result), 4)
+	})
+}
+
+func TestSimulateSandWithGround(t *testing.T) {
+	t.Run("givenOneStoneBelow", func(t *testing.T) {
+		file, _ := os.Open("day14-test.txt")
+		fileScanner := bufio.NewScanner(file)
+		fileScanner.Split(bufio.ScanLines)
+		coordinates := map[Coordinate]bool{}
+		for fileScanner.Scan() {
+			line := fileScanner.Text()
+			addParsedToMap(&coordinates, line)
+		}
+
+		result := simulateSandWithGround(coordinates)
+
+		adventOfCode.AssertExpectedOrFail(t, len(result), 93)
 	})
 }
