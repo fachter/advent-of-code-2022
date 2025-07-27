@@ -37,8 +37,22 @@ func findRootMonkeyScream(fileName string) {
 		}
 	}
 
-	rootResult := solveByName(operations, values, "root")
-	fmt.Println(rootResult)
+	solveForHuman(operations, values)
+}
+
+func solveForHuman(operations map[string]Operation, values map[string]int) {
+	firstValue, humanFirst := solveByName(operations, values, operations["root"].firstValue)
+	secondValue, humanSecond := solveByName(operations, values, operations["root"].secondValue)
+	fmt.Println(firstValue, humanFirst)
+	fmt.Println(secondValue, humanSecond)
+	if humanFirst {
+
+	}
+
+}
+
+func findHumanValue(operations map[string]Operation, values map[string]int) int {
+
 }
 
 func performOperation(val1, val2 int, op string) int {
@@ -51,14 +65,30 @@ func performOperation(val1, val2 int, op string) int {
 	return ops[op](val1, val2)
 }
 
-func solveByName(operations map[string]Operation, values map[string]int, name string) int {
+func oppositeOperation(op string) string {
+	if op == "+" {
+		return "-"
+	}
+	if op == "-" {
+		return "+"
+	}
+	if op == "/" {
+		return "*"
+	}
+	return "/"
+}
+
+func solveByName(operations map[string]Operation, values map[string]int, name string) (int, bool) {
+	isHuman := name == "humn"
 	value, exists := values[name]
 	if exists {
-		return value
+		return value, isHuman
 	}
 	operation, _ := operations[name]
+	first, humanFirst := solveByName(operations, values, operation.firstValue)
+	second, humanSecond := solveByName(operations, values, operation.secondValue)
 	return performOperation(
-		solveByName(operations, values, operation.firstValue),
-		solveByName(operations, values, operation.secondValue),
-		operation.operation)
+		first,
+		second,
+		operation.operation), isHuman || humanFirst || humanSecond
 }
